@@ -26,11 +26,3 @@ final class VenueListFail extends VenueState {
 
   const VenueListFail({this.error = "Something went wrong!"});
 }
-
-/// Venue Search
-
-final class VenueSearchLoading extends VenueState {}
-
-final class VenueSearchSuccess extends VenueState {}
-
-final class VenueSeachFail extends VenueState {}

@@ -12,7 +12,6 @@ class AppData {
     SportCategory(name: "Basketball", image: CustomIcons.basket),
     SportCategory(name: "Hockey", image: CustomIcons.hockey),
     SportCategory(name: "Squash", image: CustomIcons.squash),
-    // Adding the unique ones found in your JSON
     SportCategory(name: "Boxing", image: CustomIcons.boxing),
     SportCategory(name: "Ultimate Frisbee", image: CustomIcons.frisbee),
     SportCategory(name: "Swimming", image: CustomIcons.swimming),

@@ -8,7 +8,6 @@ class CustomIcons {
   static const basket = "assets/basket.png";
   static const hockey = "assets/hockey.png";
   static const squash = "assets/squash.jpeg";
-  // Adding the unique ones found in your JSON
   static const boxing = "assets/Boxing.png";
   static const frisbee = "assets/frisbee.webp";
   static const swimming = "assets/swimming.jpg";

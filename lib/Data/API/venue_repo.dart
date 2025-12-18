@@ -62,12 +62,12 @@ class VenueRepo {
           return searchVenues;
         }
       } else {
-        List<VenueModel> login = [];
-        return login;
+        List<VenueModel> venue = [];
+        return venue;
       }
     } catch (e) {
-      List<VenueModel> login = [];
-      return login;
+      List<VenueModel> venue = [];
+      return venue;
     }
   }
 }

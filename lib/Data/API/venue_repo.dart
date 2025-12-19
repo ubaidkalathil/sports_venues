@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sports_venues/Domain/Server/api_end_points.dart';

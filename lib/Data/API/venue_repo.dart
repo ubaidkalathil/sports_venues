@@ -44,9 +44,23 @@ class VenueRepo {
             VenueModel venue = VenueModel.fromJson(data);
 
             ///Checking if search req or not
-            if (searchKey.isNotEmpty &&
-                venue.name.toLowerCase().contains(searchKey.toLowerCase())) {
-              searchVenues.add(venue);
+            if (searchKey.isNotEmpty) {
+              VenueModel venuData = VenueModel.fromJson(data);
+              List<String> sports = venuData.sports;
+              if (venue.name.toLowerCase().contains(searchKey.toLowerCase())) {
+                searchVenues.add(venue);
+              }
+
+              final results = sports
+                  .where(
+                    (sport) =>
+                        sport.toLowerCase().contains(searchKey.toLowerCase()),
+                  )
+                  .toList();
+
+              if (results.isNotEmpty) {
+                searchVenues.add(venue);
+              }
             } else {
               venues.add(venue);
             }

@@ -12,6 +12,8 @@ Sports-Based Grouping
 
 Powerful Search
 
+- Search by sport name to quickly find relevant categories.
+
 - Search by venue name across the app.
 
 - In-group search to filter venues within a selected sport.

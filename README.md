@@ -1,16 +1,39 @@
-# sports_venues
+# Sports Venues App
 
-A new Flutter project.
+A Flutter application designed to help users discover and explore sports venues easily based on their interests and location.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Sports-Based Grouping
 
-A few resources to get you started if this is your first Flutter project:
+Venues are neatly organized by sports categories (e.g., Football, Cricket, Badminton, etc.).
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Each sport has its own dedicated group view.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Powerful Search
+
+Search by sport name to quickly find relevant categories.
+
+Search by venue name across the app.
+
+In-group search to filter venues within a selected sport.
+
+- Nearby Venues
+
+Home screen displays the nearest 10 sports venues based on the user’s location.
+
+Each sport group includes an option to view nearest venues specific to that sport.
+
+- User-Friendly Navigation
+
+Clean UI with smooth navigation between sports, venue lists, and details.
+
+Optimized for fast discovery and minimal user effort.
+
+--- Built With ---
+
+Flutter – Cross-platform UI development
+
+BLoC / Clean Architecture (if applicable, add this)
+
+distance-based filtering for nearby venues

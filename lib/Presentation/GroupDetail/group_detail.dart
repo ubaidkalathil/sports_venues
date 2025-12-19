@@ -114,6 +114,11 @@ class _GroupDetailState extends State<GroupDetail> {
           ? IconButton(
               onPressed: () {
                 search.value = false;
+
+                /// Fetching Group wise data
+                context.read<VenueBloc>().add(
+                  VenueListEvent(groupName: widget.groupName),
+                );
               },
               icon: Icon(Icons.close),
             )

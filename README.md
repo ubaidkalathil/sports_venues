@@ -1,6 +1,6 @@
 # Sports Venues App
 
-A Flutter application designed to help users discover and explore sports venues easily based on their interests and location.
+A Flutter application designed to help users discover and explore sports venues easily based on their interests.
 
 ## Features
 

@@ -30,7 +30,7 @@ User-Friendly Navigation
 
 - Optimized for fast discovery and minimal user effort.
 
---- Built With ---
+Built With
 
 - Flutter – Cross-platform UI development
 

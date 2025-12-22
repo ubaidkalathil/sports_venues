@@ -17,8 +17,12 @@ final class VenueListLoading extends VenueState {}
 
 final class VenueListSuccess extends VenueState {
   final List<VenueModel> venueListData;
+  final List<String> carousalData;
 
-  const VenueListSuccess({required this.venueListData});
+  const VenueListSuccess({
+    required this.venueListData,
+    this.carousalData = const [],
+  });
 }
 
 final class VenueListFail extends VenueState {

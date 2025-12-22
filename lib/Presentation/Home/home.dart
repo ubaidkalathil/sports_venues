@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sports_venues/Application/Venue/bloc/venue_bloc.dart';
+import 'package:sports_venues/Components/image_carousal.dart';
 import 'package:sports_venues/Components/search_widget.dart';
 import 'package:sports_venues/Components/text_widget.dart';
 import 'package:sports_venues/Components/venue_list_widget.dart';
@@ -27,6 +28,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     context.read<VenueBloc>().add(VenueSortByNearestEvent());
+    context.read<VenueBloc>().add(VenueListEvent());
     super.initState();
   }
 
@@ -81,6 +83,11 @@ class _HomeState extends State<Home> {
                     child: CustomSearchWidget(enable: false),
                   ),
                 ),
+                state is VenueListSuccess
+                    ? ImageCarousel(images: state.carousalData)
+                    : state is VenueNetworkError
+                    ? networkErrorWidget(context)
+                    : VenueListSkelton(),
                 TextWidget(
                   "Quick Match",
                   padding: const EdgeInsetsGeometry.symmetric(horizontal: 12),

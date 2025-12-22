@@ -23,7 +23,19 @@ class VenueBloc extends Bloc<VenueEvent, VenueState> {
           if (venueList.isEmpty) {
             emit(VenueListFail());
           }
-          emit(VenueListSuccess(venueListData: venueList));
+          List<String> carousalData = [];
+          carousalData = venueList
+              .where((item) => item.favourite == 1)
+              .map((item) => item.logo)
+              .where((logo) => logo.isNotEmpty)
+              .toList();
+
+          emit(
+            VenueListSuccess(
+              venueListData: venueList,
+              carousalData: carousalData,
+            ),
+          );
         } else {
           emit(VenueNetworkError());
         }

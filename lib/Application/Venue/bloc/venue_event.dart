@@ -21,3 +21,17 @@ class VenueSortByNearestEvent extends VenueEvent {
 
   const VenueSortByNearestEvent({this.groupName = ""});
 }
+
+/// Filter By Price Range
+///
+class FilterByPriceRange extends VenueEvent {
+  double startPrice;
+  double endPrice;
+  String groupName;
+
+  FilterByPriceRange({
+    required this.endPrice,
+    required this.startPrice,
+    required this.groupName,
+  });
+}

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart' show ReadContext, BlocBuilder;
 import 'package:sports_venues/Application/Venue/bloc/venue_bloc.dart';
 import 'package:sports_venues/Components/Skelton/venue_skelton.dart';
 import 'package:sports_venues/Components/custom_network_error.dart';
+import 'package:sports_venues/Components/filter_button.dart';
 import 'package:sports_venues/Components/search_widget.dart';
 import 'package:sports_venues/Components/text_widget.dart';
 import 'package:sports_venues/Components/venue_list_widget.dart';
@@ -20,6 +21,11 @@ class GroupDetail extends StatefulWidget {
 class _GroupDetailState extends State<GroupDetail> {
   ValueNotifier<bool> search = ValueNotifier(false);
   ValueNotifier<bool> selectSort = ValueNotifier(false);
+  double screenWidth = 0;
+  double screenHeight = 0;
+  ValueNotifier<RangeValues> rangeNotifier = ValueNotifier(
+    RangeValues(0, 1000),
+  );
   @override
   void initState() {
     /// Init values
@@ -29,6 +35,13 @@ class _GroupDetailState extends State<GroupDetail> {
     /// Fetching Group wise data
     context.read<VenueBloc>().add(VenueListEvent(groupName: widget.groupName));
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    screenHeight = height(context);
+    screenWidth = width(context);
+    super.didChangeDependencies();
   }
 
   @override
@@ -45,24 +58,145 @@ class _GroupDetailState extends State<GroupDetail> {
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
             child:
                 /// Checking API status
-                state is VenueListSuccess
-                ? VenueListWidget(
-                    dataList: state.venueListData,
-                    groupName: widget.groupName,
-                  )
-                : state is VenueNetworkError
-                ?
-                  //// No Network Widget
-                  NetworkErrorWidget(
-                    onPressed: () {
-                      context.read<VenueBloc>().add(
-                        VenueListEvent(groupName: widget.groupName),
-                      );
-                    },
-                  )
-                : VenueListSkelton(),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: Row(
+                        mainAxisAlignment: .spaceBetween,
+                        children: [
+                          nearbySortOption(),
+                          ValueListenableBuilder(
+                            valueListenable: rangeNotifier,
+                            builder: (context, value, child) => FilterButton(
+                              active:
+                                  rangeNotifier.value.start != 0 ||
+                                  rangeNotifier.value.end != 1000,
+                              ontTap: () {
+                                // _filterDialog(context);
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (context) {
+                                    return _filterDialog();
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: state is VenueListSuccess
+                          ? VenueListWidget(
+                              dataList: state.venueListData,
+                              groupName: widget.groupName,
+                            )
+                          : state is VenueNetworkError
+                          ?
+                            //// No Network Widget
+                            NetworkErrorWidget(
+                              onPressed: () {
+                                context.read<VenueBloc>().add(
+                                  VenueListEvent(groupName: widget.groupName),
+                                );
+                              },
+                            )
+                          : VenueListSkelton(),
+                    ),
+                  ],
+                ),
           );
         },
+      ),
+    );
+  }
+
+  Dialog _filterDialog() {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment: .start,
+          mainAxisSize: .min,
+          children: [
+            TextWidget(
+              "Filter",
+              fontSize: titleText,
+              fontWeight: FontWeight.bold,
+            ),
+            kHight(12),
+
+            // ),
+            // Title
+            const Text(
+              "Price Range",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Slider
+            ValueListenableBuilder(
+              valueListenable: rangeNotifier,
+              builder: (context, range, child) => Column(
+                children: [
+                  RangeSlider(
+                    values: range,
+                    min: 0,
+                    max: 10000,
+                    divisions: 100, // step = 100
+                    labels: RangeLabels(
+                      "₹${range.start.toInt()}",
+                      "₹${range.end.toInt()}",
+                    ),
+                    onChanged: (values) {
+                      rangeNotifier.value = values;
+                    },
+                  ),
+                  // Values shown below slider
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "₹${range.start.toInt()}",
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        "₹${range.end.toInt()}",
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.bottomRight,
+              child: TextButton(
+                onPressed: () {
+                  context.read<VenueBloc>().add(
+                    FilterByPriceRange(
+                      endPrice: rangeNotifier.value.end,
+                      startPrice: rangeNotifier.value.start,
+                      groupName: widget.groupName,
+                    ),
+                  );
+                  Navigator.pop(context);
+                },
+                child: TextWidget("Apply"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -125,7 +259,6 @@ class _GroupDetailState extends State<GroupDetail> {
           : Row(
               mainAxisSize: .min,
               children: [
-                nearbySortOption(),
                 IconButton(
                   onPressed: () {
                     selectSort.value = false;
